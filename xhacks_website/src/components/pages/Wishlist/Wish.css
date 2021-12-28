@@ -1,0 +1,39 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+.stack-large {
+  margin-top: 5%;
+  margin-left: 20%;
+  margin-right: 25%;
+  justify-content: center;
+  align-items: center;
+}
+
+.stack-exception {
+  margin-top: 10%;
+  font-size: 2em;
+  margin-left: 0%;
+  margin-right: 0%;
+  justify-items: left;
+}
+.todo-list stack-large stack-exception {
+  margin-top: 15%;
+}
+.todoapp > * {
+  max-width: 50rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+@media screen and (max-width: 960px) {
+  .stack-large {
+    margin-top: 30%;
+    justify-content: center;
+  }
+  ul.todo-list.stack-large.stack-exception {
+    margin-top: 5%;
+  }
+}
