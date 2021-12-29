@@ -3,6 +3,8 @@ import './Wish.css'
 import { nanoid } from "nanoid";
 import Wish_item from './wishlist-item'
 import Form from './Form'
+import ReactDOM from 'react-dom';
+import {Redirect} from "react-router-dom"
 import FilterButton from './FilterButton'
 import HeroSection from '../HeroSection'
 import {homeObjOne} from './Data'
@@ -22,6 +24,9 @@ const url = 'http://localhost:3001'
 
     })
     const data = await res.json()
+
+    console.log(data)
+
     return data
   }
 
@@ -56,11 +61,15 @@ const url = 'http://localhost:3001'
 
   }
 
-function Home() {
   const DATA = [
     getWishes(url)
   ];
+
+function Home() {
+
   const [tasks, setTasks] = useState(DATA);
+
+
 
   function deleteTask(_id) {
     const remainingTasks = tasks.filter(task => _id !== task.id);
@@ -83,8 +92,13 @@ function Home() {
     // }
   }
 
+  // redirect if loggedIn is false
 
+  // async function checkLoggedIn () {
 
+  // }
+
+  // checkLoggedIn()
 
   const taskList = tasks.map(task => (
     <Wish_item 
@@ -96,6 +110,8 @@ function Home() {
     />
   ));
   
+
+
 
   
     return (

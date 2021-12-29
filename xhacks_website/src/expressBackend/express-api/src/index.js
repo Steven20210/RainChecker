@@ -28,23 +28,29 @@ app.use(cors());
 // adding morgan to log HTTP requests
 app.use(morgan('combined'));
 
-// defining an endpoint to return all ads
-app.get('/', async (req, res) => { 
-  res.send(await getAds());
-});
-
 // Creating sessions
-// app.use(session({data:'data'
-// ,name:'uniqueSessionID'
-// ,saveUninitialized:false}))
+app.use(session({secret:'Keep it secret'
+,name:'uniqueSessionID'
+,saveUninitialized:false}))
 
-// // If the user tries to go to wishlist without signing up
-// app.get('/',(req,res)=>
-// {
-// if(req.session.loggedIn)
-// res.redirect('/signup')
-// else
-// })
+// defining an endpoint to return all ads
+// If the user tries to go to wishlist without signing up
+
+app.get('/', async (req, res) => { 
+  if(req.session.loggedIn){
+  res.send(await getAds());
+  }
+  else {
+    res.send({"loggedIn" : "false"})
+  }
+  // if(req.session.loggedIn)
+  // res.redirect('http://localhost:3000/wishlist')
+  // else{
+  // res.redirect('http://localhost:3000/sign-up')
+  // res.send(await getAds());
+
+  // }
+});
 
 // posting an ad to the API 
 app.post('/', async (req, res) => {

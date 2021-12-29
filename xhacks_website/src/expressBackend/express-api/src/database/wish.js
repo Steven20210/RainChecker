@@ -1,6 +1,5 @@
 const {getDatabase} = require('./mongo');
 const {ObjectId} = require('mongodb');
-const session = require('express-session')
 
 
 const collectionName = 'wishes';
@@ -15,6 +14,7 @@ async function insertAd(ad) {
 //gets an element
 async function getAds() {
   const database = await getDatabase();
+  
   return await database.collection(collectionName).find({}).toArray();
 }
 
