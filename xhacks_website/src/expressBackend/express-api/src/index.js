@@ -6,6 +6,7 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const helmet = require('helmet');
 const morgan = require('morgan');
+const session = require('express-session')
 const {startDatabase} = require('./database/mongo');
 const {insertAd, getAds} = require('./database/wish');
 const {deleteAd, updateAd} = require('./database/wish');
@@ -33,9 +34,9 @@ app.get('/', async (req, res) => {
 });
 
 // Creating sessions
-app.use(session({data:'data'
-,name:'uniqueSessionID'
-,saveUninitialized:false}))
+// app.use(session({data:'data'
+// ,name:'uniqueSessionID'
+// ,saveUninitialized:false}))
 
 // // If the user tries to go to wishlist without signing up
 // app.get('/',(req,res)=>
