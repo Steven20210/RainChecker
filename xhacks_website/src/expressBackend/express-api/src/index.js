@@ -32,6 +32,18 @@ app.get('/', async (req, res) => {
   res.send(await getAds());
 });
 
+// Creating sessions
+app.use(session({data:'data'
+,name:'uniqueSessionID'
+,saveUninitialized:false}))
+
+// // If the user tries to go to wishlist without signing up
+// app.get('/',(req,res)=>
+// {
+// if(req.session.loggedIn)
+// res.redirect('/signup')
+// else
+// })
 
 // posting an ad to the API 
 app.post('/', async (req, res) => {

@@ -9,7 +9,58 @@ import {homeObjOne} from './Data'
 import { scryRenderedComponentsWithType } from 'react-dom/cjs/react-dom-test-utils.production.min';
 
 const url = 'http://localhost:3001'
+
+  // fetching Wishes
+  const getWishes = async (url) =>
+  {
+    const res = await fetch(url, {
+      method: 'GET',
+      mode: 'cors',
+      headers:{
+        'Content-Type': 'application/json'
+      }
+
+    })
+    const data = await res.json()
+    return data
+  }
+
+  // posting wishes
+  const postWishes = async (url, body) =>
+  {
+    const res = await fetch(url, {
+      method: 'POST',
+      mode: 'cors',
+      headers:{
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(body),
+      success: function(data){
+        console.log(data)
+     }
+    })
+
+    // posttodb()
+  }
+  // deleting wishes
+  const deleteWishes = async (url, body) =>
+  {
+    const res = await fetch(url, {
+      method: 'DELETE',
+      mode: 'cors',
+      headers:{
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(body)
+    })
+
+  }
+
 function Home() {
+  const DATA = [
+    getWishes(url)
+  ];
+  const [tasks, setTasks] = useState(DATA);
 
   function deleteTask(_id) {
     const remainingTasks = tasks.filter(task => _id !== task.id);
@@ -32,10 +83,7 @@ function Home() {
     // }
   }
 
-  const DATA = [
-    getWishes(url)
-  ];
-  const [tasks, setTasks] = useState(DATA);
+
 
 
   const taskList = tasks.map(task => (
@@ -48,51 +96,8 @@ function Home() {
     />
   ));
   
-  // fetching Wishes
-  const getWishes = async (url) =>
-  {
-    const res = await fetch(url, {
-      method: 'GET',
-      mode: 'cors',
-      headers:{
-        'Content-Type': 'application/json'
-      }
 
-    })
-    const data = await res.json()
-    return data
-  }
-
-  const postWishes = async (url, body) =>
-  {
-    const res = await fetch(url, {
-      method: 'POST',
-      mode: 'cors',
-      headers:{
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(body),
-      success: function(data){
-        console.log(data)
-     }
-    })
-
-    // posttodb()
-  }
-
-  const deleteWishes = async (url, body) =>
-  {
-    const res = await fetch(url, {
-      method: 'DELETE',
-      mode: 'cors',
-      headers:{
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(body)
-    })
-
-  }
-
+  
     return (
         <div className="wishlist stack-large">
           <h1>Wish List</h1>
