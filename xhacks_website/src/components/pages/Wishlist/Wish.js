@@ -11,11 +11,12 @@ import {homeObjOne} from './Data'
 import { scryRenderedComponentsWithType } from 'react-dom/cjs/react-dom-test-utils.production.min';
 
 const url = 'http://localhost:3001'
-
+const postUrl = 'http://localhost:3001/postWish'
   // fetching Wishes
   const getWishes = async (url) =>
   {
     const res = await fetch(url, {
+      credentials: 'include',
       method: 'GET',
       mode: 'cors',
       headers:{
@@ -34,6 +35,7 @@ const url = 'http://localhost:3001'
   const postWishes = async (url, body) =>
   {
     const res = await fetch(url, {
+      credentials: 'include',
       method: 'POST',
       mode: 'cors',
       headers:{
@@ -51,6 +53,7 @@ const url = 'http://localhost:3001'
   const deleteWishes = async (url, body) =>
   {
     const res = await fetch(url, {
+      credentials: 'include',
       method: 'DELETE',
       mode: 'cors',
       headers:{
@@ -86,7 +89,7 @@ function Home() {
     const newItem = {id: "todo- " + nanoid(), name: name, completed: false }
 
     setTasks([...tasks, newItem]);
-    postWishes(url, newItem);
+    postWishes(postUrl, newItem);
     // componentDidMount() ;{
     //   postWishes(url, newItem)
     // }

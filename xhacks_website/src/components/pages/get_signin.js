@@ -1,14 +1,12 @@
+import React from 'react'
 
-
-async function get_values (url, username, email, password) 
-  {
+async function get_signin (url, username, password)  
+{
     
     const body = {
         "username": username,
-        "email": email,
         "password": password
     }
-    console.log("hello")
     await fetch(url, {
       credentials: 'include',
       method: 'POST',
@@ -23,4 +21,5 @@ async function get_values (url, username, email, password)
     })
   }
 
-export default get_values
+
+export default get_signin

@@ -3,8 +3,8 @@ import {useState} from 'react'
 import {Button} from './Button';
 import './FormSignin.css';
 import get_values from './get_values';
-
-const url = 'http://localhost:3001'
+import get_signin from './get_signin';
+const url = 'http://localhost:3001/signin'
 
 function FormSignin() {
 const [username, setUsername] = useState('')
@@ -39,7 +39,7 @@ const [password, setPassword] = useState('')
               onChange={(e) => setPassword(e.target.value)}
               />
           </div>
-          <Button className='form-input-btn' type="button" onClick={() => get_values(url, username, password)} buttonSize='btn--medium' buttonColor='green'>
+          <Button className='form-input-btn' type="button" onClick={() => get_signin(url, username, password)} buttonSize='btn--medium' buttonColor='green'>
             Sign In
           </Button>
         </form>

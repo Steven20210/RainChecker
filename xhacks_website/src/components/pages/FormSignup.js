@@ -6,7 +6,7 @@ import './FormSignup.css';
 import get_values from './get_values';
 import $ from 'jquery';
 
-const url = 'http://localhost:3001'
+const url = 'http://localhost:3001/signup'
 
 function FormSignup() {
 const [username, setUsername] = useState('')

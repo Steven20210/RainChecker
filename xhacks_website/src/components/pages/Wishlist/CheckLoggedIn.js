@@ -8,6 +8,7 @@ const url = 'http://localhost:3001'
   const getWishes = async (url) =>
   {
     const res = await fetch(url, {
+        credentials: 'include',
       method: 'GET',
       mode: 'cors',
       headers:{
