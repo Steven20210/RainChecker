@@ -13,6 +13,7 @@ const {startDatabase} = require('./database/mongo');
 const {insertWish, getWishs} = require('./database/wish');
 const {deleteWish, updateWish, loginUser} = require('./database/wish');
 const {getDatabase} = require('./database/mongo');
+const {PythonShell} =require('python-shell');
 
 // defining the Express app
 const app = express();
@@ -47,8 +48,30 @@ resave: false,
 store
 }))
 
-// defining an endpoint to return all wishes
-// If the user tries to go to wishlist without signing up
+//gets prices from the webscraper 
+app.post("/prices", (req, res, next)=>{
+  let price = ''
+  //Here are the option object in which arguments can be passed for the python_test.js.
+  let options = {
+      mode: 'text',
+      pythonOptions: ['-u'], // get print results in real-time
+        scriptPath: 'C:/Users/Steven/Documents/GitHub/RainChecker/xhacks_website/src/expressBackend/express-api/src/scraper', //If you are having python_test.py script in same folder, then it's optional.
+      args: [req.body.name] //An argument which can be accessed in the python file using sys.argv[1]
+  };
+   
+
+  PythonShell.run('scraper.py', options, function (err, result){
+        if (err) throw err;
+        // result is an array consisting of messages collected
+        //during execution of script.
+        console.log('price: ', result.toString());  
+        price = result.toString()    
+        res.send(price)
+        
+        
+  });
+
+});
 
 app.get('/', async (req, res) => { 
   const isLoggedin = await req.session.loggedIn
@@ -57,7 +80,7 @@ app.get('/', async (req, res) => {
 
 
   // console.log(store)
-  console.log(req.sessionID)
+  // console.log(req.sessionID)
   if(isLoggedin){
   res.send(await getWishs(username, password));
   }
@@ -81,7 +104,7 @@ app.post('/postWish', async (req, res) => {
   const username = await req.session.username
   const newWish = req.body//req.body
 
-  // console.log(req)
+  console.log(username)
   await insertWish(newWish, username);
   // res.send(newWish)
   res.send({ message: 'New Wish inserted.' });
@@ -98,8 +121,8 @@ app.post('/signin', async (req, res) => {
     res.locals.username = req.body.username
     req.session.loggedIn = true
     req.session.username = res.locals.username
-    console.log(req.sessionID)
-    console.log(store)
+    // console.log(req.sessionID)
+    // console.log(store)
     res.json(req.session)
     // res.redirect('/')
     // cannot set header issue

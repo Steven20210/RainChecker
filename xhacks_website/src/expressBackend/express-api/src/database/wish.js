@@ -17,7 +17,7 @@ async function getWishs(user, pass) {
   const database = await getDatabase();
   // return's user's wishes and not the user account
   const result = await database.collection(collectionName).find({ $and: [{username: {$eq: user}}, {password:  {$exists: false}}]}).toArray();
-  console.log(result)
+  // console.log(result)
   return result
 
 }

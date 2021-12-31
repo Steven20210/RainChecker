@@ -11,6 +11,7 @@ import {homeObjOne} from './Data'
 import { scryRenderedComponentsWithType } from 'react-dom/cjs/react-dom-test-utils.production.min';
 
 const url = 'http://localhost:3001'
+const priceUrl = 'http://localhost:3001/prices'
 const postUrl = 'http://localhost:3001/postWish'
   // fetching Wishes
   const getWishes = async (url) =>
@@ -30,9 +31,8 @@ const postUrl = 'http://localhost:3001/postWish'
 
     return data
   }
-
-  // posting wishes
-  const postWishes = async (url, body) =>
+  // fetching prices
+  const getPrices = async (url, body) =>
   {
     const res = await fetch(url, {
       credentials: 'include',
@@ -47,7 +47,32 @@ const postUrl = 'http://localhost:3001/postWish'
      }
     })
 
-    // posttodb()
+    const data = await res.json()
+    
+    console.log(data)
+
+    return data
+  }
+  // posting wishes
+  const postWishes = async (url, body) =>
+  {
+    // const price = await getPrices(priceUrl, body)
+    // body['prices'] = await price
+
+    const res = await fetch(url, {
+      credentials: 'include',
+      method: 'POST',
+      mode: 'cors',
+      headers:{
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(body),
+      success: function(data){
+        console.log(data)
+     }
+    })
+
+
   }
   // deleting wishes
   const deleteWishes = async (url, body) =>
@@ -71,6 +96,7 @@ const postUrl = 'http://localhost:3001/postWish'
 function Home() {
   const [tasks, setTasks] = useState(DATA);
   console.log(tasks)
+
   useEffect(() => {
     const getthewishes = async () => {
         const task = await getWishes(url)
@@ -91,25 +117,14 @@ function Home() {
 
   
   function addTask(name) {
-    // const res = await fetch(`http://localhost:5000/list`)
-    // const newItem = res.json()
 
     const newItem = {id: "todo- " + nanoid(), name: name, completed: false }
     console.log(newItem)
     setTasks([...tasks, newItem]);
     postWishes(postUrl, newItem);
-    // componentDidMount() ;{
-    //   postWishes(url, newItem)
-    // }
+
   }
 
-  // redirect if loggedIn is false
-
-  // async function checkLoggedIn () {
-
-  // }
-
-  // checkLoggedIn()
 
   const taskList = tasks.map(task => (
     <Wish_item 
