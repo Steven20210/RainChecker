@@ -5,17 +5,21 @@ const {ObjectId} = require('mongodb');
 const collectionName = 'wishes';
 
 //inserts an element
-async function insertWish(wish) {
+async function insertWish(wish, user) {
   const database = await getDatabase();
+  wish['username'] = user
   const {insertedId} = await database.collection(collectionName).insertOne(wish);
   return insertedId;
 }
 
 //gets an element
-async function getWishs() {
+async function getWishs(user, pass) {
   const database = await getDatabase();
+  // return's user's wishes and not the user account
+  const result = await database.collection(collectionName).find({ $and: [{username: {$eq: user}}, {password:  {$exists: false}}]}).toArray();
+  console.log(result)
+  return result
 
-  return await database.collection(collectionName).find({}).toArray();
 }
 
 // delete Wish
@@ -30,11 +34,12 @@ async function deleteWish(wish) {
 
   // find if the username even exists
   async function loginUser(user, pass){
-    const db = await getDatabase()
-    const result = db.collection(collectionName).find({ $and: [{username: {$eq: user}}, {password:  {$eq: pass}}]})
-    console.log({"result": result})
-  if(result){
-    console.log()
+    const database = await getDatabase();
+    const result = await database.collection(collectionName).find({ $and: [{username: {$eq: user}}, {password:  {$eq: pass}}]}).toArray() 
+
+  // checks if there are no users returned (array.length = 0)
+  if(result.length != 0){
+    console.log("true")
     return true
   }
   else{

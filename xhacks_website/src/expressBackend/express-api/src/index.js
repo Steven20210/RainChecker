@@ -52,21 +52,19 @@ store
 
 app.get('/', async (req, res) => { 
   const isLoggedin = await req.session.loggedIn
+  const username = await req.session.username
+  const password = await req.body.password
+
+
   // console.log(store)
   console.log(req.sessionID)
   if(isLoggedin){
-  res.send(await getWishs());
+  res.send(await getWishs(username, password));
   }
   else {
     res.send({"loggedIn" : "false"})
   }
-  // if(req.session.loggedIn)
-  // res.redirect('http://localhost:3000/wishlist')
-  // else{
-  // res.redirect('http://localhost:3000/sign-up')
-  // res.send(await getWishs());
 
-  // }
 });
 // signing up for an account
 app.post('/signup', async (req, res) => {
@@ -80,10 +78,11 @@ app.post('/signup', async (req, res) => {
 
 // posting an Wish to the API 
 app.post('/postWish', async (req, res) => {
+  const username = await req.session.username
   const newWish = req.body//req.body
-  console.log(req.headers)
+
   // console.log(req)
-  await insertWish(newWish);
+  await insertWish(newWish, username);
   // res.send(newWish)
   res.send({ message: 'New Wish inserted.' });
 });

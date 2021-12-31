@@ -1,4 +1,4 @@
-import React, {useState, componentDidMount} from 'react'
+import React, {useState, useEffect} from 'react'
 import './Wish.css'
 import { nanoid } from "nanoid";
 import Wish_item from './wishlist-item'
@@ -69,10 +69,18 @@ const postUrl = 'http://localhost:3001/postWish'
   ];
 
 function Home() {
-
   const [tasks, setTasks] = useState(DATA);
-
-
+  console.log(tasks)
+  useEffect(() => {
+    const getthewishes = async () => {
+        const task = await getWishes(url)
+        console.log(Object.entries(task).map((e) => ( { [e[0]]: e[1] } )))
+        setTasks(Object.keys(task).map(key => {
+          return task[key];
+      }))
+    }
+    getthewishes()
+    }, [])
 
   function deleteTask(_id) {
     const remainingTasks = tasks.filter(task => _id !== task.id);
@@ -87,7 +95,7 @@ function Home() {
     // const newItem = res.json()
 
     const newItem = {id: "todo- " + nanoid(), name: name, completed: false }
-
+    console.log(newItem)
     setTasks([...tasks, newItem]);
     postWishes(postUrl, newItem);
     // componentDidMount() ;{
