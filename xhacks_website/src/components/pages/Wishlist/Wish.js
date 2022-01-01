@@ -27,7 +27,7 @@ const postUrl = 'http://localhost:3001/postWish'
     })
     const data = await res.json()
 
-    console.log(data)
+    // console.log(data)
 
     return data
   }
@@ -49,16 +49,16 @@ const postUrl = 'http://localhost:3001/postWish'
 
     const data = await res.json()
     
-    console.log(data)
+    // console.log(data)
 
     return data
   }
   // posting wishes
   const postWishes = async (url, body) =>
   {
-    // const price = await getPrices(priceUrl, body)
-    // body['prices'] = await price
-
+    const price = await getPrices(priceUrl, body)
+    body['prices'] = await price
+    // console.log(body)
     const res = await fetch(url, {
       credentials: 'include',
       method: 'POST',
@@ -94,14 +94,14 @@ const postUrl = 'http://localhost:3001/postWish'
   ];
 
 function Home() {
-  const [tasks, setTasks] = useState(DATA);
-  console.log(tasks)
+  const [wishes, setwishes] = useState(DATA);
+  // console.log(wishes)
 
   useEffect(() => {
     const getthewishes = async () => {
         const task = await getWishes(url)
         console.log(Object.entries(task).map((e) => ( { [e[0]]: e[1] } )))
-        setTasks(Object.keys(task).map(key => {
+        setwishes(Object.keys(task).map(key => {
           return task[key];
       }))
     }
@@ -109,8 +109,8 @@ function Home() {
     }, [])
 
   function deleteTask(_id) {
-    const remainingTasks = tasks.filter(task => _id !== task.id);
-    setTasks(remainingTasks);
+    const remainingwishes = wishes.filter(task => _id !== task.id);
+    setwishes(remainingwishes);
     const ids = {"id": _id}
     deleteWishes(url, ids)
   }
@@ -118,20 +118,22 @@ function Home() {
   
   function addTask(name) {
 
-    const newItem = {id: "todo- " + nanoid(), name: name, completed: false }
-    console.log(newItem)
-    setTasks([...tasks, newItem]);
+    const newItem = {id: "todo- " + nanoid(), name: name }
+    // console.log(newItem)
+
+    setwishes([...wishes, newItem]);
     postWishes(postUrl, newItem);
 
   }
 
-
-  const taskList = tasks.map(task => (
+  console.log(wishes)
+  const taskList = wishes.map(task => (
+    
     <Wish_item 
     id={task.id}
      name={task.name} 
-    completed={task.completed} 
     key={task.id}
+    prices = {task.prices}
      deleteTask={deleteTask}
     />
   ));

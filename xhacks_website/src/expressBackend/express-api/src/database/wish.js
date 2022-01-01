@@ -5,9 +5,11 @@ const {ObjectId} = require('mongodb');
 const collectionName = 'wishes';
 
 //inserts an element
-async function insertWish(wish, user) {
+async function insertWish(wish, user, email) {
   const database = await getDatabase();
+  console.log(wish)
   wish['username'] = user
+  wish['email'] = email
   const {insertedId} = await database.collection(collectionName).insertOne(wish);
   return insertedId;
 }

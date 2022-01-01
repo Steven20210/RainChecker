@@ -14,6 +14,9 @@ const {insertWish, getWishs} = require('./database/wish');
 const {deleteWish, updateWish, loginUser} = require('./database/wish');
 const {getDatabase} = require('./database/mongo');
 const {PythonShell} =require('python-shell');
+const {updatePrice} = require('./database/updatePrice')
+
+const interval = 1000
 
 // defining the Express app
 const app = express();
@@ -42,11 +45,13 @@ app.use(morgan('combined'));
 // Creating sessions
 app.use(session({secret:'Keep it secret' // used to sign the cookie
 ,
-cookie: {maxAge: 30000, secure : false}, // maximum age of cookie (automatically signs user out after a period of time)
+rolling: true,
+cookie: { maxAge: 30000000, secure : false}, // maximum age of cookie (automatically signs user out after a period of time)
 saveUninitialized:false, // generates new session id every time there is a request to the server
 resave: false,
 store
 }))
+
 
 //gets prices from the webscraper 
 app.post("/prices", (req, res, next)=>{
@@ -73,11 +78,14 @@ app.post("/prices", (req, res, next)=>{
 
 });
 
+
+
 app.get('/', async (req, res) => { 
   const isLoggedin = await req.session.loggedIn
   const username = await req.session.username
   const password = await req.body.password
-
+//manual testing
+updatePrice('hello')
 
   // console.log(store)
   // console.log(req.sessionID)
@@ -102,6 +110,7 @@ app.post('/signup', async (req, res) => {
 // posting an Wish to the API 
 app.post('/postWish', async (req, res) => {
   const username = await req.session.username
+  const email = await req.session.email
   const newWish = req.body//req.body
 
   console.log(username)
@@ -119,8 +128,10 @@ app.post('/signin', async (req, res) => {
 
   if (didLogin){
     res.locals.username = req.body.username
+    res.locals.email = req.body.email
     req.session.loggedIn = true
     req.session.username = res.locals.username
+    req.session.email = res.locals.email
     // console.log(req.sessionID)
     // console.log(store)
     res.json(req.session)
@@ -163,3 +174,6 @@ startDatabase().then(async () => {
   });
 });
 
+// setInterval(() => {
+//     updatePrice()
+// }, interval);

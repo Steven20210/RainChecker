@@ -26,7 +26,7 @@ def get_products(product):
     # print(address)
     options = EdgeOptions()
     options.use_chromium = True
-    #options.add_argument("headless")
+    options.add_argument("headless")
     options.add_argument("disable-gpu")
 
     driver = Edge(executable_path=DRIVER_PATH, options=options)
