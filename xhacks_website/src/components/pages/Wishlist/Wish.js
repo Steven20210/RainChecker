@@ -13,6 +13,25 @@ import { scryRenderedComponentsWithType } from 'react-dom/cjs/react-dom-test-uti
 const url = 'http://localhost:3001'
 const priceUrl = 'http://localhost:3001/prices'
 const postUrl = 'http://localhost:3001/postWish'
+
+// const interval = 1000 * 60 * 60
+const interval = 1
+
+//check prices
+// checkprices dummy request
+const checkprices = async (url) =>
+{
+  const res = await fetch(url, {
+    credentials: 'include',
+    method: 'GET',
+    mode: 'cors',
+    headers:{
+      'Content-Type': 'application/json'
+    }
+
+  })
+
+}
   // fetching Wishes
   const getWishes = async (url) =>
   {
@@ -114,7 +133,7 @@ function Home() {
     const ids = {"id": _id}
     deleteWishes(url, ids)
   }
-
+  setInterval(checkprices, interval)
   
   function addTask(name) {
 

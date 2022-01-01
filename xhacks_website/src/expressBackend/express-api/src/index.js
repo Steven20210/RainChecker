@@ -43,11 +43,8 @@ app.use(bodyParser.json({ // need to use json
 app.use(morgan('combined'));
 
 // Creating sessions
-app.use(session({secret:'Keep it secret' // used to sign the cookie
-,
-rolling: true,
-cookie: { maxAge: 30000000, secure : false}, // maximum age of cookie (automatically signs user out after a period of time)
-rolling = true,
+app.use(session({secret:'Keep it secret', // used to sign the cookie,
+// rolling = true,
 cookie: {maxAge: 3000000, secure : false}, // maximum age of cookie (automatically signs user out after a period of time)
 saveUninitialized:false, // generates new session id every time there is a request to the server
 resave: false,
@@ -79,15 +76,16 @@ app.post("/prices", (req, res, next)=>{
   });
 
 });
-
-
+app.get('/checkprices', async (req, res) => {
+//manual testing
+updatePrice('hello')
+});
 
 app.get('/', async (req, res) => { 
   const isLoggedin = await req.session.loggedIn
   const username = await req.session.username
   const password = await req.body.password
-//manual testing
-updatePrice('hello')
+
 
   // console.log(store)
   // console.log(req.sessionID)

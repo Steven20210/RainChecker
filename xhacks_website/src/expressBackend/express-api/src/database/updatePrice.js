@@ -41,6 +41,7 @@ const sendEmail =  (item, new_price, email) => {
         //   console.log('price: ', result.toString());  
         //   price = result.toString()   
         console.log('success') 
+        return 'success'
 
           
     });
@@ -59,11 +60,11 @@ async function updatePrice(user) {
     // loop through all of the items and run the search function on it. 
     for (let i = 0; i < items.length; i++){
         const old_price = items[i]['prices']
-        // const new_price = searchForPrice(items[i]['name'])
-        const new_price = 0;
+        const new_price = searchForPrice(items[i]['name'])
+        // const new_price = 0;
         if (new_price < old_price){
-            // sendEmail(items[i], new_price, items[i]['email'])
-            await sendEmail(items[i]['name'], new_price, "lees82880@gmail.com")
+            // sendEmail(items[i], new_price, items[i]['email']) // use in production
+            sendEmail(items[i]['name'], new_price, "lees82880@gmail.com")
             console.log("lowered the price!")
         }
         console.log("didn't lower the price")
