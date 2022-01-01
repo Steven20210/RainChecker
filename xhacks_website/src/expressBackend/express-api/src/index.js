@@ -47,6 +47,8 @@ app.use(session({secret:'Keep it secret' // used to sign the cookie
 ,
 rolling: true,
 cookie: { maxAge: 30000000, secure : false}, // maximum age of cookie (automatically signs user out after a period of time)
+rolling = true,
+cookie: {maxAge: 3000000, secure : false}, // maximum age of cookie (automatically signs user out after a period of time)
 saveUninitialized:false, // generates new session id every time there is a request to the server
 resave: false,
 store
