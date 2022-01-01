@@ -12,6 +12,10 @@
   align-items: center;
 }
 
+.wishlist-price {
+  color: azure;
+  font-size: large;
+}
 .stack-exception {
   margin-top: 10%;
   font-size: 2em;
