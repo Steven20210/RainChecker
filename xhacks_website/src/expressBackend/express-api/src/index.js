@@ -16,7 +16,6 @@ const {getDatabase} = require('./database/mongo');
 const {PythonShell} =require('python-shell');
 const {updatePrice} = require('./database/updatePrice')
 
-const interval = 1000
 
 // defining the Express app
 const app = express();
@@ -76,7 +75,7 @@ app.post("/prices", (req, res, next)=>{
   });
 
 });
-app.get('/checkprices', async (req, res) => {
+app.get('/checkPrices', async (req, res) => {
 //manual testing
 updatePrice('hello')
 });
@@ -85,7 +84,10 @@ app.get('/', async (req, res) => {
   const isLoggedin = await req.session.loggedIn
   const username = await req.session.username
   const password = await req.body.password
-
+  res.locals.username = req.body.username
+  res.locals.email = req.body.email
+  req.session.username = res.locals.username
+  req.session.email = res.locals.email
 
   // console.log(store)
   // console.log(req.sessionID)
@@ -100,6 +102,9 @@ app.get('/', async (req, res) => {
 // signing up for an account
 app.post('/signup', async (req, res) => {
   const newAcc = req.body//req.body
+  const username = req.body.username
+  const password = req.body.password
+
   console.log(req.headers)
   // console.log(req)
   await insertWish(newAcc);

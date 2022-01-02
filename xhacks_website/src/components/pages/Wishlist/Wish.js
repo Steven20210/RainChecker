@@ -13,9 +13,9 @@ import { scryRenderedComponentsWithType } from 'react-dom/cjs/react-dom-test-uti
 const url = 'http://localhost:3001'
 const priceUrl = 'http://localhost:3001/prices'
 const postUrl = 'http://localhost:3001/postWish'
-
+const checkUrl = 'http://localhost:3001/checkPrices'
 // const interval = 1000 * 60 * 60
-const interval = 1
+const interval = 1000 * 2
 
 //check prices
 // checkprices dummy request
@@ -133,7 +133,9 @@ function Home() {
     const ids = {"id": _id}
     deleteWishes(url, ids)
   }
-  setInterval(checkprices, interval)
+
+  // checks prices every 24 hours 
+  setInterval(checkprices(checkUrl), interval)
   
   function addTask(name) {
 
