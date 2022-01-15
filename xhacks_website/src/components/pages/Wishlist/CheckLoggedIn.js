@@ -25,7 +25,7 @@ const url = 'http://localhost:3001'
 
 
 const CheckLoggedIn = () => {
-    const [cond, setCond] = useState('') // need to useState in the fucking async functions also https://stackoverflow.com/questions/54936559/using-async-await-in-react-component
+    const [cond, setCond] = useState('') // need to useState in the async functions also https://stackoverflow.com/questions/54936559/using-async-await-in-react-component
     useEffect(() => {
     const getthewishes = async () => {
         const conds = await getWishes(url)
